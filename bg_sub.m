@@ -33,7 +33,3 @@ function data=bg_sub(data)
 		data.processed.images.(imgname).isfile=zeros(1,size(img_proc,3));
 	end
 end
-
-function data=add_processed(data,varargin)
-	% data.processed.images.(name).
-end
