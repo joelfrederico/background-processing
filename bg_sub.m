@@ -28,8 +28,21 @@ function data=bg_sub(data)
 			toc;
 			img_proc=cat(3,img_proc,sub);
 		end
-		data.processed.images.(imgname) = data.raw.images.(imgname);
-		data.processed.images.(imgname).dat=img_proc;
-		data.processed.images.(imgname).isfile=zeros(1,size(img_proc,3));
+		img_proc_file=[];
+		for j=1:size(img_proc,3)
+			UID=data.raw.images.(imgname).UID(j);
+			if exist('temp')~=7
+				mkdir('temp');
+			end
+			str=['temp/Background_' imgname '_bg_' num2str(UID) '.mat'];
+			img=img_proc(:,:,j);
+			save(str,'img');
+			img_proc_file=[img_proc_file,{str}];
+		end
+		imgname_bg=[imgname '_bg'];
+		data.processed.images.(imgname_bg) = data.raw.images.(imgname);
+		data.processed.images.(imgname_bg).dat=img_proc_file;
+		% data.processed.images.(imgname_bg).isfile=zeros(1,size(img_proc,3));
+		data.processed.images.(imgname_bg).isfile=ones(1,size(img_proc,3));
 	end
 end
